@@ -1,16 +1,18 @@
 package com.dh.trabalhoIntegrador.model;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Dentista {
     private String nome;
     private String sobrenome;
     private String numMatricula;
-
-    public Dentista(String nome, String sobrenome, String numMatricula) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.numMatricula = numMatricula;
-    }
-
+    
     public String getNome() {
         return nome;
     }

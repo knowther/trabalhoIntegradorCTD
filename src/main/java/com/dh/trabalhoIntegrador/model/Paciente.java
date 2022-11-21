@@ -1,21 +1,21 @@
 package com.dh.trabalhoIntegrador.model;
 
-import org.springframework.cglib.core.Local;
+import com.dh.trabalhoIntegrador.utils.utils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Paciente {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Paciente implements Serializable {
     private String nome;
     private String sobrenome;
     private String rg;
     private LocalDate dataCadastro;
-
-    public Paciente(String nome, String sobrenome, String rg, LocalDate dataCadastro) {
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.rg = rg;
-        this.dataCadastro = dataCadastro;
-    }
 
     public String getNome() {
         return nome;
@@ -45,7 +45,7 @@ public class Paciente {
         return dataCadastro;
     }
 
-    public void setDataCadastro(LocalDate dataCadastro) {
-        this.dataCadastro = dataCadastro;
+    public void setDataCadastro(String dataCadastro) {
+        this.dataCadastro = utils.convertLocalDate(dataCadastro);
     }
 }

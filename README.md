@@ -15,5 +15,5 @@ gerenciar dentistas e pacientes.<br>
 ● **Registrar consulta:** Deve ser possível permitir que um paciente seja
 atribuído a uma consulta com um dentista em uma determinada data e
 hora.
-
-    <h2> Link para aompanhar a evolução do projeto em Sprints no Trello : https://trello.com/b/PsAbqRfW/api-cl%C3%ADnica </h2>
+<h2> Link para acompanhar a evolução do projeto em Sprints no Trello :</h2>
+    <p>https://trello.com/b/PsAbqRfW/api-cl%C3%ADnica<p>

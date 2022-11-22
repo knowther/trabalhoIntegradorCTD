@@ -14,5 +14,4 @@ public class Dentista {
     private String sobrenome;
     private String numMatricula;
 
-
 }

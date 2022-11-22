@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.dh.trabalhoIntegrador.TrabalhoIntegradorApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.374 s - in com.dh.trabalhoIntegrador.TrabalhoIntegradorApplicationTests

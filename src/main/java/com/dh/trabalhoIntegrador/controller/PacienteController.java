@@ -26,8 +26,8 @@ public class PacienteController implements Serializable {
 //    }
 
     @PostMapping()
-    public void salvar(@RequestBody Paciente paciente){
-        pacienteService.salvar(paciente);
+    public String salvar(@RequestBody Paciente paciente){
+        return pacienteService.salvar(paciente);
     }
 
 

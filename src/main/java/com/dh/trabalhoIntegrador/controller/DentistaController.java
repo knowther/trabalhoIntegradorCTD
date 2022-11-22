@@ -1,7 +1,10 @@
 package com.dh.trabalhoIntegrador.controller;
 
 import com.dh.trabalhoIntegrador.model.Dentista;
+import com.dh.trabalhoIntegrador.model.dto.DentistaDTO;
 import com.dh.trabalhoIntegrador.service.impl.DentistaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,27 +13,17 @@ import java.util.List;
 @RequestMapping("/dentista")
 public class DentistaController {
 
-//    @GetMapping("/buscar/{numPedido}/{nomeUsuario}")
-//    public String buscar(@PathVariable int numPedido, @PathVariable String nomeUsuario){
-//        return "Numero pedido: " + numPedido + " - nome Usuario: " + nomeUsuario;
-//    }
-
-//    @GetMapping("/buscar")
-//    public String buscar(@RequestParam("numPedido") int numPedido,
-//                         @RequestParam("nomeUsuario") String nomeUsuario){
-//        return "Numero pedido: " + numPedido + " - nome Usuario: " + nomeUsuario;
-//    }
-
-    DentistaService service = new DentistaService();
+    @Autowired
+    private DentistaService dentistaService;
 
     @GetMapping("/buscar")
-    public List<Dentista> buscarTodos(){
-        return service.buscarTodos();
+    public List<DentistaDTO> buscarTodos(){
+        return dentistaService.buscarTodos();
     }
 
     @PostMapping()
-    public String salvar(@RequestBody Dentista dentista){
-        return service.salvar(dentista);
+    public ResponseEntity<Dentista> salvar(@RequestBody Dentista dentista){
+        return dentistaService.salvar(dentista);
     }
 
     @DeleteMapping

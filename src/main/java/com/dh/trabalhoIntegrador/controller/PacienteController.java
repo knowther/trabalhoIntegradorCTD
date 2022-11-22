@@ -28,5 +28,4 @@ public class PacienteController implements Serializable {
        return pacienteService.salvar(paciente);
     }
 
-
 }

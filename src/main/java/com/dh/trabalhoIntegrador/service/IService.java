@@ -1,14 +1,17 @@
 package com.dh.trabalhoIntegrador.service;
 
+import com.dh.trabalhoIntegrador.model.Paciente;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 import java.util.Optional;
 
-public interface IService<T> {
+public interface IService<T, A> {
 
-    public void salvar (T t);
+    public ResponseEntity salvar (T t);
 
     public T buscar (Integer id);
 
-    public List<T> buscarTodos();
+    public List<A> buscarTodos();
 
 }

@@ -11,8 +11,9 @@ public class PacienteDAO implements IDao<Paciente> {
     public static List<Paciente> pacientes = new ArrayList<>();
 
     @Override
-    public void salvar(Paciente paciente) {
+    public Paciente salvar(Paciente paciente) {
         pacientes.add(paciente);
+        return paciente;
     }
 
     @Override

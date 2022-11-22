@@ -1,5 +1,6 @@
 package com.dh.trabalhoIntegrador.service.dao.impl;
 
+import com.dh.trabalhoIntegrador.model.Paciente;
 import com.dh.trabalhoIntegrador.service.dao.IDao;
 import com.dh.trabalhoIntegrador.model.Dentista;
 
@@ -11,9 +12,9 @@ public class DentistaDAO implements IDao<Dentista> {
     public static List<Dentista> dentistas = new ArrayList<>();
 
     @Override
-    public void salvar(Dentista dentista) {
+    public Dentista salvar(Dentista dentista) {
         dentistas.add(dentista);
-
+        return dentista;
     }
 
     @Override

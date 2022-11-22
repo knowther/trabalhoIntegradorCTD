@@ -21,8 +21,8 @@ class PacienteServiceTest {
 
     @BeforeEach
     void doEach(){
-        Paciente paciente = new Paciente("Johnny", "Wesley", "123.456.122", LocalDate.now());
-        pacienteService.salvar(paciente);
+//        Paciente paciente = new Paciente("Johnny", "Wesley", "123.456.122", "");
+//        pacienteService.salvar(paciente);
     }
 
     @Test

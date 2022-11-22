@@ -1,14 +1,17 @@
 package com.dh.trabalhoIntegrador.controller;
 
 import com.dh.trabalhoIntegrador.model.Dentista;
+import com.dh.trabalhoIntegrador.model.dto.DentistaDTO;
 import com.dh.trabalhoIntegrador.service.impl.DentistaService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @RestController
 @RequestMapping("/dentista")
-public class DentistaController {
+public class DentistaController implements Serializable {
 
 //    @GetMapping("/buscar/{numPedido}/{nomeUsuario}")
 //    public String buscar(@PathVariable int numPedido, @PathVariable String nomeUsuario){
@@ -21,16 +24,16 @@ public class DentistaController {
 //        return "Numero pedido: " + numPedido + " - nome Usuario: " + nomeUsuario;
 //    }
 
-    DentistaService service = new DentistaService();
+    DentistaService dentistaService = new DentistaService();
 
-    @GetMapping("/buscar")
-    public List<Dentista> buscarTodos(){
-        return service.buscarTodos();
+    @GetMapping("/buscarTodos")
+    public List<DentistaDTO> buscarTodos(){
+        return dentistaService.buscarTodos();
     }
 
     @PostMapping()
-    public String salvar(@RequestBody Dentista dentista){
-        return service.salvar(dentista);
+    public ResponseEntity salvar(@RequestBody Dentista dentista){
+        return dentistaService.salvar(dentista);
     }
 
     @DeleteMapping

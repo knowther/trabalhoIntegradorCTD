@@ -18,7 +18,7 @@ public class PacienteController implements Serializable {
     @Autowired
     private PacienteService pacienteService;
 
-    @GetMapping()
+    @GetMapping("/buscarTodosgit st")
     public List<PacienteDTO> getAllPacientes(){
         return pacienteService.buscarTodos();
     }

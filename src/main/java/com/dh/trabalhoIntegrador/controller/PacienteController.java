@@ -18,7 +18,7 @@ public class PacienteController implements Serializable {
     @Autowired
     private PacienteService pacienteService;
 
-    @GetMapping()
+    @GetMapping("buscarTodos")
     public List<PacienteDTO> getAllPacientes(){
         return pacienteService.buscarTodos();
     }
@@ -27,5 +27,4 @@ public class PacienteController implements Serializable {
     public ResponseEntity<Paciente> salvar(@RequestBody Paciente paciente){
        return pacienteService.salvar(paciente);
     }
-
 }

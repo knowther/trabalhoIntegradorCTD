@@ -3,6 +3,7 @@ package com.dh.trabalhoIntegrador.controller;
 import com.dh.trabalhoIntegrador.model.Dentista;
 import com.dh.trabalhoIntegrador.model.dto.DentistaDTO;
 import com.dh.trabalhoIntegrador.service.impl.DentistaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,8 @@ import java.util.List;
 @RequestMapping("/dentista")
 public class DentistaController implements Serializable {
 
-    DentistaService dentistaService = new DentistaService();
+    @Autowired
+    private DentistaService dentistaService;
 
     @GetMapping("/buscarTodos")
     public List<DentistaDTO> buscarTodos(){

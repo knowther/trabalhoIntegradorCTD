@@ -14,8 +14,9 @@ public class PacienteService implements IService<Paciente> {
    private PacienteDAO pacienteDAO = new PacienteDAO();
 
     @Override
-    public void salvar(Paciente paciente) {
+    public String salvar(Paciente paciente) {
         pacienteDAO.salvar(paciente);
+        return "Paciente " +paciente.getNome()+ " salvo com sucesso!";
     }
 
     @Override

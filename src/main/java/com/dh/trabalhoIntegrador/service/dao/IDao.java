@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IDao<T> {
-    public void salvar (T t);
+    public T salvar (T String);
 
     public T buscar (Integer id);
 

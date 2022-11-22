@@ -12,8 +12,9 @@ public class DentistaService implements IService<Dentista> {
     private DentistaDAO dentistaDAO = new DentistaDAO();
 
     @Override
-    public void salvar(Dentista dentista) {
+    public String salvar(Dentista dentista) {
         dentistaDAO.salvar(dentista);
+        return "Dentista " +dentista.getNome()+ " salvo com sucesso!";
     }
 
     @Override

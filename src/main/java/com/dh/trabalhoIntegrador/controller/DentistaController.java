@@ -13,17 +13,6 @@ import java.util.List;
 @RequestMapping("/dentista")
 public class DentistaController implements Serializable {
 
-//    @GetMapping("/buscar/{numPedido}/{nomeUsuario}")
-//    public String buscar(@PathVariable int numPedido, @PathVariable String nomeUsuario){
-//        return "Numero pedido: " + numPedido + " - nome Usuario: " + nomeUsuario;
-//    }
-
-//    @GetMapping("/buscar")
-//    public String buscar(@RequestParam("numPedido") int numPedido,
-//                         @RequestParam("nomeUsuario") String nomeUsuario){
-//        return "Numero pedido: " + numPedido + " - nome Usuario: " + nomeUsuario;
-//    }
-
     DentistaService dentistaService = new DentistaService();
 
     @GetMapping("/buscarTodos")

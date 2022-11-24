@@ -30,19 +30,19 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
     @Override
     public Optional<Dentista> buscar(Long id) {
         return dentistaRepository.findById(id);
-    }
 
+    }
     @Override
     public List<DentistaDTO> buscarTodos() {
         List<Dentista> dentistaList = dentistaRepository.findAll();
         List<DentistaDTO> dentistaDTOList = new ArrayList<>();
 
         ObjectMapper mapper = new ObjectMapper();
-
         for(Dentista d: dentistaList){
             dentistaDTOList.add(mapper.convertValue(d, DentistaDTO.class));
         }
 
         return dentistaDTOList ;
     }
+
 }

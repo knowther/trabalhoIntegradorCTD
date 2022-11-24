@@ -17,6 +17,7 @@ public class DentistaController implements Serializable {
     @Autowired
     DentistaService dentistaService;
 
+
     @GetMapping("/buscarTodos")
     public List<DentistaDTO> buscarTodos(){
         return dentistaService.buscarTodos();

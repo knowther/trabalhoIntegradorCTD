@@ -15,7 +15,8 @@ import java.util.List;
 public class DentistaController implements Serializable {
 
     @Autowired
-    private DentistaService dentistaService;
+    DentistaService dentistaService;
+
 
     @GetMapping("/buscarTodos")
     public List<DentistaDTO> buscarTodos(){

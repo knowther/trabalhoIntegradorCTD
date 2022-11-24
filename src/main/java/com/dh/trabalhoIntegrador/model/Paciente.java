@@ -3,6 +3,7 @@ package com.dh.trabalhoIntegrador.model;
 import com.dh.trabalhoIntegrador.utils.utils;
 import lombok.*;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -12,10 +13,16 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
+@Entity
 public class Paciente implements Serializable {
-    private int Id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+    @Column(nullable = false, length = 100)
     private String nome;
+    @Column(nullable = false, length = 100)
     private String sobrenome;
+    @Column(nullable = false, length = 15)
     private String rg;
     private Timestamp dataCadastro;
 

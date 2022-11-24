@@ -10,7 +10,7 @@ public interface IService<T, A> {
 
     public ResponseEntity salvar (T t);
 
-    public T buscar (Integer id);
+    public Optional<T> buscar (Long id);
 
     public List<A> buscarTodos();
 

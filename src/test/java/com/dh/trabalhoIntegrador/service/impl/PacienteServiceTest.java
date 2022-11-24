@@ -27,7 +27,7 @@ class PacienteServiceTest {
 
     @Test
     void findById(){
-       assertEquals(false, pacienteService.buscar(0) == null);
+       assertEquals(false, pacienteService.buscar(0L) == null);
     }
 
     @Test

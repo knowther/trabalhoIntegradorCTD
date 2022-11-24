@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/paciente")
 public class PacienteController implements Serializable {
@@ -18,7 +19,8 @@ public class PacienteController implements Serializable {
     @Autowired
     private PacienteService pacienteService;
 
-    @GetMapping("buscarTodos")
+
+    @GetMapping("/buscarTodos")
     public List<PacienteDTO> getAllPacientes(){
         return pacienteService.buscarTodos();
     }

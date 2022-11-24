@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 
-//@Repository
-//public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
-//}
+@Repository
+public interface PacienteRepository extends JpaRepository<Paciente, Long> {
+}

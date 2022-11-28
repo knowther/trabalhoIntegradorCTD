@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Consulta{
+public class Consulta {
 
     private Paciente paciente;
     private Dentista dentista;

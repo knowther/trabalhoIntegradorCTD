@@ -22,9 +22,15 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
     DentistaRepository dentistaRepository;
 
     @Override
+
     public ResponseEntity salvar(Dentista dentista) {
-        dentistaRepository.save(dentista);
-        return new ResponseEntity("", HttpStatus.CREATED);
+        try{
+            Dentista dentistaSalvo = dentistaRepository.save(dentista);
+            return new ResponseEntity("Dentista Dr. " +dentistaSalvo.getNome()+ " " +dentistaSalvo.getSobrenome()+ " cadastrado com sucesso!", HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity("Erro ao cadastrar dentista", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @Override

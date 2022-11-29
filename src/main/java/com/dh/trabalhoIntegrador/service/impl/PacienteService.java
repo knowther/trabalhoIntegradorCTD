@@ -1,5 +1,6 @@
 package com.dh.trabalhoIntegrador.service.impl;
 
+import com.dh.trabalhoIntegrador.model.Dentista;
 import com.dh.trabalhoIntegrador.model.dto.PacienteDTO;
 import com.dh.trabalhoIntegrador.repository.PacienteRepository;
 import com.dh.trabalhoIntegrador.model.Paciente;
@@ -48,5 +49,15 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
         }catch (Exception e){
             return new ResponseEntity("Erro ao cadastrar paciente", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @Override
+    public ResponseEntity deletar(Long id){
+        Optional<Paciente> paciente = pacienteRepository.findById(id);
+        if(paciente.isEmpty()){
+            return new ResponseEntity("Id informado não existe", HttpStatus.BAD_REQUEST);
+        }
+        pacienteRepository.deleteById(id);
+        return new ResponseEntity("Paciente excluido com sucesso!", HttpStatus.OK);
     }
 }

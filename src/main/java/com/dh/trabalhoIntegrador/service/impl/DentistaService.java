@@ -51,4 +51,14 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         return dentistaDTOList ;
     }
 
+    @Override
+    public ResponseEntity deletar(Long id){
+        Optional<Dentista> dentista = dentistaRepository.findById(id);
+        if(dentista.isEmpty()){
+            return new ResponseEntity("Id informado não existe", HttpStatus.BAD_REQUEST);
+        }
+        dentistaRepository.deleteById(id);
+        return new ResponseEntity("Dentista excluido com sucesso!", HttpStatus.OK);
+    }
+
 }

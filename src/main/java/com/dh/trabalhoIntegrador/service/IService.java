@@ -14,4 +14,6 @@ public interface IService<T, A> {
 
     public List<A> buscarTodos();
 
+    public  ResponseEntity deletar(Long id);
+
 }

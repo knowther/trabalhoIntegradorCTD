@@ -58,5 +58,5 @@ public class DentistaController implements Serializable {
         return "Entrou put";
     }
 
-    
+
 }

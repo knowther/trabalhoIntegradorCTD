@@ -19,7 +19,7 @@ public class Dentista {
     private String nome;
     @Column(nullable = false, length = 100)
     private String sobrenome;
-    @Column(nullable = true, length = 100, unique = true)
+    @Column(nullable = false, length = 10, unique = true)
     private String numMatricula;
 
 }

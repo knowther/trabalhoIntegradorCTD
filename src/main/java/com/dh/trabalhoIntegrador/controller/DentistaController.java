@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/dentista")
@@ -18,15 +20,27 @@ public class DentistaController implements Serializable {
     DentistaService dentistaService;
 
 
+    @PostMapping()
+    public ResponseEntity salvar(@RequestBody Dentista dentista){
+        return dentistaService.salvar(dentista);
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Dentista> buscar(@PathVariable Long id){
+        return dentistaService.buscar(id);
+    }
+
+    @GetMapping("/buscarPorMatricula/{numMatricula}")
+    public Dentista buscarPorMatricula(@PathVariable String numMatricula){
+        return dentistaService.buscarPorNumMatricula(numMatricula);
+    }
+
+
     @GetMapping("/buscarTodos")
     public List<DentistaDTO> buscarTodos(){
         return dentistaService.buscarTodos();
     }
 
-    @PostMapping()
-    public ResponseEntity salvar(@RequestBody Dentista dentista){
-        return dentistaService.salvar(dentista);
-    }
 
     @DeleteMapping
     public ResponseEntity deletar(@RequestParam("id") Long id){
@@ -34,8 +48,10 @@ public class DentistaController implements Serializable {
     }
 
     @PatchMapping
-    public String alteracaoParcial(){
-        return "Entrou path";
+    public ResponseEntity alteracaoParcial(@RequestBody @Valid DentistaDTO dentistaDTO){
+
+        return dentistaService.alteracaoPacial(dentistaDTO);
+
     }
 
 

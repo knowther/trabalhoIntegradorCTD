@@ -21,8 +21,17 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
     @Autowired
     DentistaRepository dentistaRepository;
 
-    @Override
 
+    @Override
+    public Optional<Dentista> buscar(Long id) {
+        return dentistaRepository.findById(id);
+    }
+
+    public Dentista buscarPorNumMatricula(String numMatricula) {
+        return dentistaRepository.findByNumMatricula(numMatricula);
+    }
+
+    @Override
     public ResponseEntity salvar(Dentista dentista) {
         try{
             Dentista dentistaSalvo = dentistaRepository.save(dentista);
@@ -30,12 +39,6 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         } catch (Exception e){
             return new ResponseEntity("Erro ao cadastrar dentista", HttpStatus.BAD_REQUEST);
         }
-
-    }
-
-    @Override
-    public Optional<Dentista> buscar(Long id) {
-        return dentistaRepository.findById(id);
 
     }
 
@@ -66,5 +69,25 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         dentistaRepository.deleteById(id);
         return new ResponseEntity("Dentista excluido com sucesso!", HttpStatus.OK);
     }
+
+    public ResponseEntity alteracaoPacial(DentistaDTO dentistaDTO){
+        ObjectMapper mapper = new ObjectMapper();
+        Optional<Dentista> dentistaOptional = Optional.ofNullable(dentistaRepository.findByNumMatricula(dentistaDTO.getNumMatricula()));
+        if(dentistaOptional.isEmpty()){
+            return new ResponseEntity("A matricula informada não existe",HttpStatus.NOT_FOUND);
+        }
+        Dentista dentista = dentistaOptional.get();
+
+        if(dentistaDTO.getNome() != null){
+            dentista.setNome(dentistaDTO.getNome());
+        }
+        if(dentista.getSobrenome() != null){
+            dentista.setSobrenome(dentistaDTO.getSobrenome());
+        }
+
+        DentistaDTO dentistaAlterado = mapper.convertValue(dentistaRepository.save(dentista), DentistaDTO.class);
+        return new ResponseEntity(dentistaAlterado, HttpStatus.OK);
+    }
+
 
 }

@@ -79,4 +79,29 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
     public Paciente buscarPorRg(String rg) {
         return pacienteRepository.findByRg(rg);
     }
+
+    public ResponseEntity alteracaoPacial(PacienteDTO pacienteDTO){
+        ObjectMapper mapper = new ObjectMapper();
+        Optional<Paciente> pacienteOptional = Optional.ofNullable(pacienteRepository.findByRg(pacienteDTO.getRg()));
+        if(pacienteOptional.isEmpty()){
+            return new ResponseEntity("O produto informado não existe",HttpStatus.NOT_FOUND);
+        }
+        Paciente paciente = pacienteOptional.get();
+
+        if(pacienteDTO.getNome() != null){
+            paciente.setNome(pacienteDTO.getNome());
+        }
+        if(pacienteDTO.getRg() != null){
+            paciente.setRg(pacienteDTO.getRg());
+        }
+        if(pacienteDTO.getEndereco() != null){
+            paciente.setEndereco(pacienteDTO.getEndereco());
+        }
+        if(pacienteDTO.getSobrenome() != null){
+            paciente.setSobrenome(pacienteDTO.getSobrenome());
+        }
+
+        PacienteDTO pacienteChange = mapper.convertValue(pacienteRepository.save(paciente), PacienteDTO.class);
+        return new ResponseEntity(pacienteChange, HttpStatus.CREATED);
+    }
 }

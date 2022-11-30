@@ -1,5 +1,6 @@
 package com.dh.trabalhoIntegrador.model.dto;
 
+import com.dh.trabalhoIntegrador.model.Endereco;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -19,6 +20,8 @@ public class PacienteDTO {
     private String sobrenome;
     private String rg;
     private Timestamp dataCadastro;
+
+    private Endereco endereco;
 
     public LocalDate getDataCadastro(){
         return dataCadastro.toLocalDateTime().toLocalDate();

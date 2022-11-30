@@ -38,6 +38,12 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         return dentistaRepository.findById(id);
 
     }
+
+    @Override
+    public ResponseEntity atualizar(Long id) {
+        return null;
+    }
+
     @Override
     public List<DentistaDTO> buscarTodos() {
         List<Dentista> dentistaList = dentistaRepository.findAll();

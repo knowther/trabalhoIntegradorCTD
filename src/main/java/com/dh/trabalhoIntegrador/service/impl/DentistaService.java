@@ -17,10 +17,8 @@ import java.util.Optional;
 @Service
 public class DentistaService implements IService<Dentista, DentistaDTO> {
 
-
     @Autowired
     DentistaRepository dentistaRepository;
-
 
     @Override
     public Optional<Dentista> buscar(Long id) {
@@ -37,9 +35,12 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
             Dentista dentistaSalvo = dentistaRepository.save(dentista);
             return new ResponseEntity("Dentista Dr. " +dentistaSalvo.getNome()+ " " +dentistaSalvo.getSobrenome()+ " cadastrado com sucesso!", HttpStatus.CREATED);
         } catch (Exception e){
+            if(dentista.getNumMatricula().isEmpty())
             return new ResponseEntity("Erro ao cadastrar dentista", HttpStatus.BAD_REQUEST);
+            else{
+                return new ResponseEntity("Matricula já cadastrada, informe outra para cadastrar novo dentista", HttpStatus.BAD_REQUEST);
+            }
         }
-
     }
 
     @Override
@@ -56,7 +57,6 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         for(Dentista d: dentistaList){
             dentistaDTOList.add(mapper.convertValue(d, DentistaDTO.class));
         }
-
         return dentistaDTOList ;
     }
 

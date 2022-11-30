@@ -22,9 +22,15 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
     DentistaRepository dentistaRepository;
 
     @Override
+
     public ResponseEntity salvar(Dentista dentista) {
-        dentistaRepository.save(dentista);
-        return new ResponseEntity("", HttpStatus.CREATED);
+        try{
+            Dentista dentistaSalvo = dentistaRepository.save(dentista);
+            return new ResponseEntity("Dentista Dr. " +dentistaSalvo.getNome()+ " " +dentistaSalvo.getSobrenome()+ " cadastrado com sucesso!", HttpStatus.CREATED);
+        } catch (Exception e){
+            return new ResponseEntity("Erro ao cadastrar dentista", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @Override
@@ -52,8 +58,13 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
     }
 
     @Override
-    public ResponseEntity deletar(Long id) {
-        return null;
+    public ResponseEntity deletar(Long id){
+        Optional<Dentista> dentista = dentistaRepository.findById(id);
+        if(dentista.isEmpty()){
+            return new ResponseEntity("Id informado não existe", HttpStatus.BAD_REQUEST);
+        }
+        dentistaRepository.deleteById(id);
+        return new ResponseEntity("Dentista excluido com sucesso!", HttpStatus.OK);
     }
 
 }

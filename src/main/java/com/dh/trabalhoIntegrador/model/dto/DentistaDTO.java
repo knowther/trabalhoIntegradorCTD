@@ -11,7 +11,7 @@ import lombok.*;
 @Setter
 public class DentistaDTO {
     @JsonIgnore
-    private int Id;
+    private Long Id;
     private String nome;
     private String sobrenome;
     private String numMatricula;

@@ -59,4 +59,5 @@ public class PacienteController implements Serializable {
     public ResponseEntity<Paciente> salvar(@RequestBody Paciente paciente){
        return pacienteService.salvar(paciente);
     }
+
 }

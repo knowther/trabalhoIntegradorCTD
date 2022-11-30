@@ -1,5 +1,6 @@
 package com.dh.trabalhoIntegrador.service.impl;
 
+import com.dh.trabalhoIntegrador.model.Dentista;
 import com.dh.trabalhoIntegrador.model.dto.PacienteDTO;
 import com.dh.trabalhoIntegrador.repository.PacienteRepository;
 import com.dh.trabalhoIntegrador.model.Paciente;

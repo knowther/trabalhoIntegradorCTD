@@ -25,7 +25,7 @@ public class Paciente implements Serializable {
     @Column(nullable = false, length = 15)
     private String rg;
     private Timestamp dataCadastro;
-
-
+    @OneToOne(cascade = CascadeType.ALL)
+    private Endereco endereco;
 
 }

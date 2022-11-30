@@ -24,7 +24,21 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
 
 
     public Optional<Paciente> buscar(Long id) {
-       return pacienteRepository.findById(id);
+   return pacienteRepository.findById(id);
+    }
+
+    @Override
+    public ResponseEntity atualizar(Long id) {
+
+        Optional<Paciente> paciente = pacienteRepository.findById(id);
+
+        if(paciente.isEmpty()){
+            return new ResponseEntity("Paciente inexistente.", HttpStatus.BAD_REQUEST);
+        }
+
+
+
+        return null;
     }
 
 
@@ -40,6 +54,17 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
         return pacienteDTOList;
     }
 
+    @Override
+    public ResponseEntity deletar(Long id) {
+        Optional<Paciente> paciente = buscar(id);
+
+       if(paciente.isEmpty()){
+           return new ResponseEntity("Paciente inexistente.", HttpStatus.BAD_REQUEST);
+       }
+       pacienteRepository.deleteById(id);
+        return new ResponseEntity("Paciente "+ paciente.get().getNome() + "excluído com sucesso.", HttpStatus.OK);
+    }
+
     public ResponseEntity salvar(Paciente paciente){
         try{
             paciente.setDataCadastro(Timestamp.from(Instant.now()));
@@ -48,5 +73,9 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
         }catch (Exception e){
             return new ResponseEntity("Erro ao cadastrar paciente", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public Paciente buscarPorRg(String rg) {
+        return pacienteRepository.findByRg(rg);
     }
 }

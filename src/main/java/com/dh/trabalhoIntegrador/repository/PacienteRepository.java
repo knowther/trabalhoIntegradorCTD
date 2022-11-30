@@ -9,5 +9,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
+    Paciente findByRg(String rg);
 }
 

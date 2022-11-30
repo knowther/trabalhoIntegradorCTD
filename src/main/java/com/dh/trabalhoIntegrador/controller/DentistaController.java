@@ -29,8 +29,8 @@ public class DentistaController implements Serializable {
     }
 
     @DeleteMapping
-    public String deletar(){
-        return "Entrou delete";
+    public ResponseEntity deletar(@RequestParam("id") Long id){
+        return dentistaService.deletar(id);
     }
 
     @PatchMapping

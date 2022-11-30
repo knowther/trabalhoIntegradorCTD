@@ -26,4 +26,6 @@ public class Paciente implements Serializable {
     private String rg;
     private Timestamp dataCadastro;
 
+
+
 }

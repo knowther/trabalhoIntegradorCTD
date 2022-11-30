@@ -4,11 +4,13 @@ import com.dh.trabalhoIntegrador.model.Paciente;
 import com.dh.trabalhoIntegrador.model.dto.PacienteDTO;
 import com.dh.trabalhoIntegrador.service.impl.PacienteService;
 import com.dh.trabalhoIntegrador.utils.utils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +23,11 @@ public class PacienteController implements Serializable {
     @Autowired
     private PacienteService pacienteService;
 
-
-    @GetMapping("/buscarTodos")
-    public List<PacienteDTO> getAllPacientes(){
-        return pacienteService.buscarTodos();
+    @PostMapping()
+    public ResponseEntity<Paciente> salvar(@RequestBody Paciente paciente){
+        return pacienteService.salvar(paciente);
     }
+
 
     @GetMapping("/{id}")
     public Optional<Paciente> buscar(@PathVariable Long id){
@@ -37,27 +39,32 @@ public class PacienteController implements Serializable {
         return pacienteService.buscarPorRg(rg);
     }
 
+
+    @GetMapping("/buscarTodos")
+    public List<PacienteDTO> getAllPacientes(){
+        return pacienteService.buscarTodos();
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity deletar(@PathVariable Long id){
         return pacienteService.deletar(id);
     }
 
+
     @PutMapping
-    public ResponseEntity<Void> trocar(@PathVariable Long id){
+    public ResponseEntity alteracaoCompleta(@RequestBody){
+
+    }
+
+
+    @PatchMapping
+    public ResponseEntity alteracaoParcial(@RequestBody @Valid PacienteDTO pacienteDTO){
+
+        return pacienteService.alteracaoPacial(pacienteDTO);
+
 
      //   TODO: "Implementar este método";
-
-        pacienteService.deletar(id);
-//        pacienteService.salvar(id)
-
-//        paciente.setId(id);
-//        paciente  = pacienteService.atualizar(paciente);
-        return ResponseEntity.noContent().build();
     }
 
-    @PostMapping()
-    public ResponseEntity<Paciente> salvar(@RequestBody Paciente paciente){
-       return pacienteService.salvar(paciente);
-    }
 
 }

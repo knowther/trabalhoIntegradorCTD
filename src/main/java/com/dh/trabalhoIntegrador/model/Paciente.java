@@ -26,4 +26,7 @@ public class Paciente implements Serializable {
     private String rg;
     private Timestamp dataCadastro;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Endereco endereco;
+
 }

@@ -29,4 +29,9 @@ public class PacienteController implements Serializable {
     public ResponseEntity<Paciente> salvar(@RequestBody Paciente paciente){
        return pacienteService.salvar(paciente);
     }
+
+    @DeleteMapping
+    public ResponseEntity deletar(@RequestParam("id") Long id){
+        return pacienteService.deletar(id);
+    }
 }

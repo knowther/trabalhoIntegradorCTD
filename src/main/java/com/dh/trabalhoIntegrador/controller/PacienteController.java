@@ -52,9 +52,10 @@ public class PacienteController implements Serializable {
 
 
     @PutMapping
-    public ResponseEntity alteracaoCompleta(@RequestBody){
-
-    }
+    // TODO: Implementar alteração completa - Paciente
+//    public ResponseEntity alteracaoCompleta(@RequestBody){
+//
+//    }
 
 
     @PatchMapping
@@ -62,8 +63,6 @@ public class PacienteController implements Serializable {
 
         return pacienteService.alteracaoPacial(pacienteDTO);
 
-
-     //   TODO: "Implementar este método";
     }
 
 

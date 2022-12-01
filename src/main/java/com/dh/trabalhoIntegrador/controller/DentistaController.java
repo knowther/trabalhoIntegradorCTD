@@ -25,6 +25,7 @@ public class DentistaController implements Serializable {
         return dentistaService.salvar(dentista);
     }
 
+
     @GetMapping("/{id}")
     public Optional<Dentista> buscar(@PathVariable Long id){
         return dentistaService.buscar(id);
@@ -34,7 +35,6 @@ public class DentistaController implements Serializable {
     public Dentista buscarPorMatricula(@PathVariable String numMatricula){
         return dentistaService.buscarPorNumMatricula(numMatricula);
     }
-
 
     @GetMapping("/buscarTodos")
     public List<DentistaDTO> buscarTodos(){
@@ -47,19 +47,16 @@ public class DentistaController implements Serializable {
         return dentistaService.deletar(id);
     }
 
+
     @PatchMapping
     public ResponseEntity alteracaoParcial(@RequestBody @Valid DentistaDTO dentistaDTO){
-
         return dentistaService.alteracaoPacial(dentistaDTO);
-
     }
-
 
     @PutMapping
     public String alteracaototal(){
         return "Entrou put";
     }
-
 
 
 }

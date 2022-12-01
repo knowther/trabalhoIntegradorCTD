@@ -17,10 +17,8 @@ import java.util.Optional;
 @Service
 public class DentistaService implements IService<Dentista, DentistaDTO> {
 
-
     @Autowired
     DentistaRepository dentistaRepository;
-
 
     @Override
     public Optional<Dentista> buscar(Long id) {
@@ -39,7 +37,6 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         } catch (Exception e){
             return new ResponseEntity("Erro ao cadastrar dentista", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @Override
@@ -56,7 +53,6 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         for(Dentista d: dentistaList){
             dentistaDTOList.add(mapper.convertValue(d, DentistaDTO.class));
         }
-
         return dentistaDTOList ;
     }
 

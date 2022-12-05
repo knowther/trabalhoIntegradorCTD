@@ -1,6 +1,7 @@
 package com.dh.trabalhoIntegrador.controller;
 
 import com.dh.trabalhoIntegrador.model.Consulta;
+import com.dh.trabalhoIntegrador.model.dto.ConsultaDTO;
 import com.dh.trabalhoIntegrador.service.impl.ConsultaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +14,15 @@ import java.util.List;
 public class ConsultaController {
 
     @Autowired
-    ConsultaService cosnultaService;
+    ConsultaService consultaService;
 
     @PostMapping
     public ResponseEntity salvar(@RequestBody Consulta consulta){
-        return cosnultaService.salvar(consulta);
+        return consultaService.salvar(consulta);
     }
 
     @GetMapping
-    public List<Consulta> buscarTodos(){
-        return cosnultaService.buscarTodos();
+    public List<ConsultaDTO> buscarTodos(){
+        return consultaService.buscarTodos();
     }
 }

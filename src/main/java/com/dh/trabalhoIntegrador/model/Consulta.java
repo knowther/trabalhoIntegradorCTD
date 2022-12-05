@@ -16,9 +16,10 @@ public class Consulta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  Long id;
-
+    private  Long Id;
+    @Column(nullable = false, length = 10, unique = true)
     private String codConsulta;
+
     private Timestamp dataConsulta;
 
     @ManyToOne

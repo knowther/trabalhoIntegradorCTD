@@ -1,6 +1,7 @@
 package com.dh.trabalhoIntegrador.service.impl;
 
 import com.dh.trabalhoIntegrador.model.Consulta;
+import com.dh.trabalhoIntegrador.model.dto.ConsultaDTO;
 import com.dh.trabalhoIntegrador.repository.ConsultaRepository;
 import com.dh.trabalhoIntegrador.service.IService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ConsultaService implements IService<Consulta, Consulta> {
+public class ConsultaService implements IService<Consulta, ConsultaDTO> {
 
     @Autowired
     ConsultaRepository consultaRepository;
@@ -25,7 +26,7 @@ public class ConsultaService implements IService<Consulta, Consulta> {
             Consulta consultaSalva = consultaRepository.save(consulta);
             return new ResponseEntity(consultaSalva, HttpStatus.CREATED);
         } catch (Exception e){
-            return new ResponseEntity("Não foi possível cadastrar a cosnulta",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Não foi possível cadastrar a consulta",HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -40,15 +41,15 @@ public class ConsultaService implements IService<Consulta, Consulta> {
     }
 
     @Override
-    public List<Consulta> buscarTodos() {
+    public List<ConsultaDTO> buscarTodos() {
         List<Consulta> listConsulta = consultaRepository.findAll();
-        List<Consulta> dentistaDTOList = new ArrayList<>();
+        List<ConsultaDTO> consultasDTOList = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         for(Consulta c: listConsulta){
-            dentistaDTOList.add(mapper.convertValue(c, Consulta.class));
+            consultasDTOList.add(mapper.convertValue(c, ConsultaDTO.class));
         }
 
-        return dentistaDTOList ;
+        return consultasDTOList ;
     }
 
     @Override

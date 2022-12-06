@@ -25,9 +25,6 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         return dentistaRepository.findById(id);
     }
 
-    public Dentista buscarPorNumMatricula(String numMatricula) {
-        return dentistaRepository.findByNumMatricula(numMatricula);
-    }
 
     @Override
     public ResponseEntity salvar(Dentista dentista) {
@@ -43,6 +40,7 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
     public ResponseEntity atualizar(Long id) {
         return null;
     }
+
 
     @Override
     public List<DentistaDTO> buscarTodos() {
@@ -66,9 +64,22 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         return new ResponseEntity("Dentista excluido com sucesso!", HttpStatus.OK);
     }
 
+
+    public ResponseEntity buscarPorNumMatricula(String numMatricula) {
+        ObjectMapper mapper = new ObjectMapper();
+        Optional<Dentista> dentista = dentistaRepository.findByNumMatricula(numMatricula);
+        if (dentista.isEmpty()){
+            return new ResponseEntity("Matricula inexistente, Dentista não encontrado", HttpStatus.BAD_REQUEST);
+        }
+        Dentista dentistaProcurado = dentista.get();
+        DentistaDTO dentistaDTO = mapper.convertValue(dentistaProcurado, DentistaDTO.class);
+        return new ResponseEntity(dentistaDTO,HttpStatus.OK);
+    }
+
+
     public ResponseEntity alteracaoPacial(DentistaDTO dentistaDTO){
         ObjectMapper mapper = new ObjectMapper();
-        Optional<Dentista> dentistaOptional = Optional.ofNullable(dentistaRepository.findByNumMatricula(dentistaDTO.getNumMatricula()));
+        Optional<Dentista> dentistaOptional = dentistaRepository.findByNumMatricula(dentistaDTO.getNumMatricula());
         if(dentistaOptional.isEmpty()){
             return new ResponseEntity("A matricula informada não existe",HttpStatus.NOT_FOUND);
         }
@@ -80,9 +91,22 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         if(dentista.getSobrenome() != null){
             dentista.setSobrenome(dentistaDTO.getSobrenome());
         }
-
         DentistaDTO dentistaAlterado = mapper.convertValue(dentistaRepository.save(dentista), DentistaDTO.class);
         return new ResponseEntity(dentistaAlterado, HttpStatus.OK);
+    }
+
+    public ResponseEntity alteracaoTotal(DentistaDTO dentistaDTO) {
+
+        Optional<Dentista> dentista = dentistaRepository.findByNumMatricula(dentistaDTO.getNumMatricula());
+
+        if (dentista.isEmpty()){
+            return new ResponseEntity("Matricula informada não existe", HttpStatus.BAD_REQUEST);
+        }
+        Dentista dentistaToUpdate = dentista.get();
+        dentistaToUpdate.setNome(dentistaDTO.getNome());
+        dentistaToUpdate.setSobrenome(dentistaDTO.getSobrenome());
+        dentistaRepository.save(dentistaToUpdate);
+        return new ResponseEntity("Alterado com sucesso", HttpStatus.OK);
     }
 
 

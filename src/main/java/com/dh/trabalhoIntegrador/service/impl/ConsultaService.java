@@ -23,16 +23,16 @@ public class ConsultaService implements IService<Consulta, ConsultaDTO> {
     @Override
     public ResponseEntity salvar(Consulta consulta){
         try {
-            Consulta consultaSalva = consultaRepository.save(consulta);
-            return new ResponseEntity(consultaSalva, HttpStatus.CREATED);
+            consultaRepository.save(consulta);
+            return new ResponseEntity("Consulta agendada com sucesso", HttpStatus.CREATED);
         } catch (Exception e){
-            return new ResponseEntity("Não foi possível cadastrar a consulta",HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Não foi possível agendar a consulta",HttpStatus.BAD_REQUEST);
         }
     }
 
     @Override
-    public Optional<Consulta> buscar(Long id) {
-        return Optional.empty();
+    public Optional<Consulta> buscar(Long id){
+        return consultaRepository.findById(id);
     }
 
     @Override
@@ -55,6 +55,27 @@ public class ConsultaService implements IService<Consulta, ConsultaDTO> {
     @Override
     public ResponseEntity deletar(Long id) {
         return null;
+    }
+
+    public ResponseEntity deletar(String codConsulta){
+        Optional<Consulta> consulta = consultaRepository.findByCodConsulta(codConsulta);
+        if (consulta.isEmpty()){
+            return new ResponseEntity("Codigo de Consulta não existe", HttpStatus.BAD_REQUEST);
+        }
+        consultaRepository.deleteById(consulta.get().getId());
+        return new ResponseEntity("Consulta excluida com sucesso com sucesso", HttpStatus.OK);
+
+    }
+
+    public ResponseEntity buscarCodConsulta(String codConsulta){
+        ObjectMapper mapper = new ObjectMapper();
+        Optional<Consulta> consulta = consultaRepository.findByCodConsulta(codConsulta);
+        if (consulta.isEmpty()){
+            return new ResponseEntity("Consulta não encontrada", HttpStatus.BAD_REQUEST);
+        }
+        Consulta consultaPesquisada = consulta.get();
+        ConsultaDTO consultaDTO = mapper.convertValue(consultaPesquisada, ConsultaDTO.class);
+        return new ResponseEntity(consultaDTO,HttpStatus.OK);
     }
 
 }

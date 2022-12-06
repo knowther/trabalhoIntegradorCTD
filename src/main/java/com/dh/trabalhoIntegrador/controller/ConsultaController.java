@@ -25,4 +25,14 @@ public class ConsultaController {
     public List<ConsultaDTO> buscarTodos(){
         return consultaService.buscarTodos();
     }
+
+    @GetMapping("/buscarConsulta/{codConsulta}")
+    public ResponseEntity buscarCodConsulta(@PathVariable String codConsulta){
+        return consultaService.buscarCodConsulta(codConsulta);
+    }
+
+    @DeleteMapping()
+    public ResponseEntity deletar(@RequestParam("codConsulta") String codConsulta){
+        return consultaService.deletar(codConsulta);
+    }
 }

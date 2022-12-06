@@ -19,35 +19,102 @@ class ConsultaServiceTest {
 
     @Autowired
     ConsultaService consultaService;
+
+    @Autowired
     DentistaService dentistaService;
+
+    @Autowired
     PacienteService pacienteService;
-    ObjectMapper mapper = new ObjectMapper();
 
-
-    //Criando Dentista e Paciente
-
-    @Test
-    void cadastrarConsulta() {
-//        Dentista dentista1 = new Dentista();
-//        dentista1.setNome("Lucas");
-//        dentista1.setSobrenome("Ramalho");
-//        dentista1.setNumMatricula("AB1234");
-//        //Salvando dentista
-//        dentistaService.salvar(dentista1);
-//
-//        Paciente paciente1 = new Paciente();
-//        paciente1.setNome("Joao");
-//        paciente1.setSobrenome("Matos");
-//        paciente1.setRg("11.111.111-1");
-//        // Salvando paciente
-//        pacienteService.salvar(paciente1);
-//
-//        Consulta consulta = new Consulta();
-//        consulta.setCodConsulta("12345-5");
-//        consulta.setDentista(dentistaService.buscarPorNumMatricula("AB1234"));
-//        consulta.setPaciente(pacienteService.buscarPorRg("11.111.111-1"));
-//        consulta.setDataConsulta(Timestamp.from(Instant.now()));
+    @BeforeEach
+    public void setUp(){
 
     }
+
+    @Test
+    void agendarConsulta() {
+        //Paciente
+        Paciente paciente = new Paciente();
+        paciente.setRg("11.111.11-1");
+        paciente.setNome("Lucas");
+        paciente.setSobrenome("Ramalho");
+        pacienteService.salvar(paciente);
+
+        //Dentista
+        Dentista dentista = new Dentista();
+        dentista.setNumMatricula("AB124");
+        dentista.setNome("Dentisvaldo");
+        dentista.setSobrenome("Abreu");
+        dentistaService.salvar(dentista);
+
+        //Consulta
+        Consulta consulta = new Consulta();
+        consulta.setDataConsulta(Timestamp.valueOf("2022-12-01 00:00:00"));
+        consulta.setDentista(dentista);
+        consulta.setPaciente(paciente);
+        consulta.setCodConsulta("CO998811");
+        consultaService.salvar(consulta);
+
+
+        Assertions.assertTrue(consultaService.consultaRepository.findByCodConsulta("CO998811").isPresent());
+    }
+
+    @Test
+    void buscarCodConsulta(){
+        //Paciente
+        Paciente paciente = new Paciente();
+        paciente.setRg("22.222.22-2");
+        paciente.setNome("Raquel");
+        paciente.setSobrenome("Ramalho");
+        pacienteService.salvar(paciente);
+
+        //Dentista
+        Dentista dentista = new Dentista();
+        dentista.setNumMatricula("AB555");
+        dentista.setNome("Dentisvaldo");
+        dentista.setSobrenome("Fagundes");
+        dentistaService.salvar(dentista);
+
+        //Consulta
+        Consulta consulta = new Consulta();
+        consulta.setDataConsulta(Timestamp.valueOf("2022-12-01 00:00:00"));
+        consulta.setDentista(dentista);
+        consulta.setPaciente(paciente);
+        consulta.setCodConsulta("CO559911");
+        consultaService.salvar(consulta);
+
+        Assertions.assertTrue(consultaService.buscarCodConsulta("CO559911").getStatusCodeValue() == 200);
+    }
+
+    //Deletando consulta
+    @Test
+    void deletarConsulta(){
+        //Paciente
+        Paciente paciente = new Paciente();
+        paciente.setRg("22.222.22-2");
+        paciente.setNome("Raquel");
+        paciente.setSobrenome("Ramalho");
+        pacienteService.salvar(paciente);
+
+        //Dentista
+        Dentista dentista = new Dentista();
+        dentista.setNumMatricula("AB555");
+        dentista.setNome("Dentisvaldo");
+        dentista.setSobrenome("Fagundes");
+        dentistaService.salvar(dentista);
+
+        //Consulta
+        Consulta consulta = new Consulta();
+        consulta.setDataConsulta(Timestamp.valueOf("2022-12-01 00:00:00"));
+        consulta.setDentista(dentista);
+        consulta.setPaciente(paciente);
+        consulta.setCodConsulta("DT0155247");
+        consultaService.salvar(consulta);
+
+        //Deletando a consulta criada para o teste
+        consultaService.deletar("DT0155247");
+        Assertions.assertTrue(consultaService.buscarCodConsulta("DT0155247").getStatusCodeValue() != 200);
+    }
+
 
 }

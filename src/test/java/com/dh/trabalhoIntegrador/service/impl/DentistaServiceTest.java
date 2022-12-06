@@ -19,24 +19,28 @@ class DentistaServiceTest {
     @Test
     void salvar(){
         Dentista dentista = new Dentista();
-        dentista.setNumMatricula("MM554433");
+        dentista.setNumMatricula("MM554438");
         dentista.setNome("Joao");
         dentista.setSobrenome("Alguem");
         dentistaService.salvar(dentista);
 
-        Assertions.assertTrue(dentistaService.dentistaRepository.findByNumMatricula("MM554433").isPresent());
+        Assertions.assertTrue(dentistaService.dentistaRepository.findByNumMatricula("MM554438").isPresent());
+
+        dentistaService.deletar(dentistaService.dentistaRepository.findByNumMatricula("MM554438").get().getId());
     }
 
     //Teste do método buscarPorCro
     @Test
     void buscarPorMatricula(){
         Dentista dentista = new Dentista();
-        dentista.setNumMatricula("NA5533");
+        dentista.setNumMatricula("NA5538");
         dentista.setNome("Ayrton");
         dentista.setSobrenome("Senna");
         dentistaService.salvar(dentista);
 
-        Assertions.assertTrue(dentistaService.buscarPorNumMatricula("NA5533").getStatusCodeValue() == 200);
+        Assertions.assertTrue(dentistaService.buscarPorNumMatricula("NA5538").getStatusCodeValue() == 200);
+
+        dentistaService.deletar(dentistaService.dentistaRepository.findByNumMatricula("NA5538").get().getId());
     }
 
     //Testando o método deletar

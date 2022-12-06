@@ -1,2 +1,4 @@
 com\dh\trabalhoIntegrador\service\impl\PacienteServiceTest.class
 com\dh\trabalhoIntegrador\TrabalhoIntegradorApplicationTests.class
+com\dh\trabalhoIntegrador\service\impl\DentistaServiceTest.class
+com\dh\trabalhoIntegrador\service\impl\ConsultaServiceTest.class

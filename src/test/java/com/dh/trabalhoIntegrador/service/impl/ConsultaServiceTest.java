@@ -70,7 +70,7 @@ class ConsultaServiceTest {
 
         //Dentista
         Dentista dentista = new Dentista();
-        dentista.setNumMatricula("AB555");
+        dentista.setNumMatricula("AC5556");
         dentista.setNome("Dentisvaldo");
         dentista.setSobrenome("Fagundes");
         dentistaService.salvar(dentista);
@@ -91,7 +91,7 @@ class ConsultaServiceTest {
     void deletarConsulta(){
         //Paciente
         Paciente paciente = new Paciente();
-        paciente.setRg("22.222.22-2");
+        paciente.setRg("22.222.22-1");
         paciente.setNome("Raquel");
         paciente.setSobrenome("Ramalho");
         pacienteService.salvar(paciente);

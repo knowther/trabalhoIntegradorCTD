@@ -2,6 +2,7 @@ package com.dh.trabalhoIntegrador.service.impl;
 
 import com.dh.trabalhoIntegrador.model.Consulta;
 import com.dh.trabalhoIntegrador.model.Dentista;
+import com.dh.trabalhoIntegrador.model.Endereco;
 import com.dh.trabalhoIntegrador.model.Paciente;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
@@ -38,7 +39,16 @@ class ConsultaServiceTest {
         paciente.setRg("11.111.11-1");
         paciente.setNome("Lucas");
         paciente.setSobrenome("Ramalho");
+        //Endereco
+        Endereco endereco = new Endereco();
+        endereco.setLogradouro("Rua Das Giestas");
+        endereco.setCidade("São Paulo");
+        endereco.setEstado("São Paulo");
+        paciente.setEndereco(endereco);
         pacienteService.salvar(paciente);
+
+
+
 
         //Dentista
         Dentista dentista = new Dentista();
@@ -66,7 +76,14 @@ class ConsultaServiceTest {
         paciente.setRg("22.222.22-2");
         paciente.setNome("Raquel");
         paciente.setSobrenome("Ramalho");
+        //Endereco
+        Endereco endereco = new Endereco();
+        endereco.setLogradouro("Rua Da Paz");
+        endereco.setCidade("Rio de Janeiro");
+        endereco.setEstado("Rio de Janeiro");
+        paciente.setEndereco(endereco);
         pacienteService.salvar(paciente);
+
 
         //Dentista
         Dentista dentista = new Dentista();
@@ -94,7 +111,14 @@ class ConsultaServiceTest {
         paciente.setRg("22.222.22-1");
         paciente.setNome("Raquel");
         paciente.setSobrenome("Ramalho");
+        //Endereco
+        Endereco endereco = new Endereco();
+        endereco.setLogradouro("Rua Do Jimbo");
+        endereco.setCidade("Piracicaba");
+        endereco.setEstado("São Paulo");
+        paciente.setEndereco(endereco);
         pacienteService.salvar(paciente);
+
 
         //Dentista
         Dentista dentista = new Dentista();

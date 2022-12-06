@@ -2,12 +2,9 @@ package com.dh.trabalhoIntegrador.model;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -18,8 +15,11 @@ public class Endereco {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
+    @Column(nullable = false, length = 50)
     private String logradouro;
+    @Column(nullable = false, length = 20)
     private String cidade;
+    @Column(nullable = false, length = 20)
     private String estado;
 
 }

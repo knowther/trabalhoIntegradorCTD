@@ -67,22 +67,29 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
     }
 
     public ResponseEntity salvar(Paciente paciente){
+        Paciente pacienteSalvo = null;
         try{
-            paciente.setDataCadastro(Timestamp.from(Instant.now()));
-            Paciente pacienteSalvo = pacienteRepository.save(paciente);
+            
+            if(this.buscarPorRg(paciente.getRg()).isEmpty()){
+                paciente.setDataCadastro(Timestamp.from(Instant.now()));
+                pacienteSalvo = pacienteRepository.save(paciente);
+            }else{
+                return new ResponseEntity("RG já existente na base de dados.", HttpStatus.BAD_REQUEST);
+            }
+         
             return new ResponseEntity( "Paciente "+pacienteSalvo.getNome()+" criado com sucesso", HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity("Erro ao cadastrar paciente", HttpStatus.BAD_REQUEST);
         }
     }
 
-    public Paciente buscarPorRg(String rg) {
+    public Optional<Paciente> buscarPorRg(String rg) {
         return pacienteRepository.findByRg(rg);
     }
 
     public ResponseEntity alteracaoPacial(PacienteDTO pacienteDTO){
         ObjectMapper mapper = new ObjectMapper();
-        Optional<Paciente> pacienteOptional = Optional.ofNullable(pacienteRepository.findByRg(pacienteDTO.getRg()));
+        Optional<Paciente> pacienteOptional = pacienteRepository.findByRg(pacienteDTO.getRg());
         if(pacienteOptional.isEmpty()){
             return new ResponseEntity("O produto informado não existe",HttpStatus.NOT_FOUND);
         }
@@ -103,5 +110,21 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
 
         PacienteDTO pacienteChange = mapper.convertValue(pacienteRepository.save(paciente), PacienteDTO.class);
         return new ResponseEntity(pacienteChange, HttpStatus.CREATED);
+    }
+
+    public ResponseEntity alteracaoTotal(PacienteDTO pacienteDTO){
+
+        Optional<Paciente> paciente = pacienteRepository.findByRg(pacienteDTO.getRg());
+
+        if(paciente.isEmpty()){
+            return new ResponseEntity("RG informado inexistente.", HttpStatus.BAD_REQUEST);
+        }
+        Paciente pacienteUpdate = paciente.get();
+        pacienteUpdate.setNome(pacienteDTO.getNome());
+        pacienteUpdate.setSobrenome(pacienteDTO.getSobrenome());
+        pacienteUpdate.setEndereco(pacienteDTO.getEndereco());
+        pacienteUpdate.setRg(pacienteDTO.getRg());
+        pacienteRepository.save(pacienteUpdate);
+        return new ResponseEntity("Alterado com sucesso.", HttpStatus.OK);
     }
 }

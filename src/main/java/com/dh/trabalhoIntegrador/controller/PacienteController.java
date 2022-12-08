@@ -24,7 +24,7 @@ public class PacienteController implements Serializable {
     private PacienteService pacienteService;
 
     @PostMapping()
-    public ResponseEntity<Paciente> salvar(@RequestBody Paciente paciente){
+    public ResponseEntity<Paciente> salvar(@RequestBody @Valid Paciente paciente){
         return pacienteService.salvar(paciente);
     }
 
@@ -35,7 +35,7 @@ public class PacienteController implements Serializable {
     }
 
     @GetMapping("/buscarRg/{rg}")
-    public Paciente buscarPorRG(@PathVariable String rg){
+    public Optional<Paciente> buscarPorRG(@PathVariable String rg){
         return pacienteService.buscarPorRg(rg);
     }
 
@@ -53,9 +53,9 @@ public class PacienteController implements Serializable {
 
     @PutMapping
     // TODO: Implementar alteração completa - Paciente
-//    public ResponseEntity alteracaoCompleta(@RequestBody){
-//
-//    }
+    public ResponseEntity alteracaoCompleta(@RequestBody PacienteDTO pacienteDTO){
+        return pacienteService.alteracaoTotal(pacienteDTO);
+    }
 
 
     @PatchMapping

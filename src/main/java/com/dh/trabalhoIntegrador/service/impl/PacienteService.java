@@ -1,5 +1,6 @@
 package com.dh.trabalhoIntegrador.service.impl;
 
+import com.dh.trabalhoIntegrador.exception.CadastroInvalidoException;
 import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.dto.PacienteDTO;
 import com.dh.trabalhoIntegrador.repository.PacienteRepository;
@@ -24,6 +25,7 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
     PacienteRepository pacienteRepository;
 
 
+
     public PacienteDTO buscar(Long id) throws ResourceNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
         Paciente paciente = pacienteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("RG inexistente na base de dados, verifique."));
@@ -38,7 +40,7 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
 
         ObjectMapper mapper = new ObjectMapper();
         for(Paciente p : pacienteList){
-            pacienteDTOList.add(mapper.convertValue(p, PacienteDTO.class))      ;
+            pacienteDTOList.add(mapper.convertValue(p, PacienteDTO.class));
         }
         return pacienteDTOList;
     }
@@ -51,18 +53,16 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
         return new ResponseEntity("Paciente "+ paciente.getNome() + "excluído com sucesso.", HttpStatus.OK);
     }
 
-    public ResponseEntity salvar(Paciente paciente) throws ResourceNotFoundException {
+    public Paciente salvar(Paciente paciente) throws CadastroInvalidoException, ResourceNotFoundException {
+        Optional<Paciente> pacienteExists = pacienteRepository.findByRg(paciente.getRg());
         Paciente pacienteSalvo = null;
-            
-            if(this.buscarPorRg(paciente.getRg()) == null){
-                paciente.setDataCadastro(Timestamp.from(Instant.now()));
-                pacienteSalvo = pacienteRepository.save(paciente);
-            }else{
-                return new ResponseEntity("RG já existente na base de dados.", HttpStatus.BAD_REQUEST);
-            }
-         
-            return new ResponseEntity( "Paciente "+pacienteSalvo.getNome()+" criado com sucesso", HttpStatus.CREATED);
-
+        if(pacienteExists.isEmpty()){
+            paciente.setDataCadastro(Timestamp.from(Instant.now()));
+            pacienteSalvo = pacienteRepository.save(paciente);
+        }else{
+            throw new CadastroInvalidoException("Rg já existente na base de dados.");
+        }
+            return pacienteSalvo;
     }
 
     public PacienteDTO buscarPorRg(String rg) throws ResourceNotFoundException {

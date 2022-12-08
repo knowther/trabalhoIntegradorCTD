@@ -1,7 +1,9 @@
 package com.dh.trabalhoIntegrador.controller;
 
+import com.dh.trabalhoIntegrador.exception.CadastroInvalidoException;
 import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.Dentista;
+import com.dh.trabalhoIntegrador.model.Paciente;
 import com.dh.trabalhoIntegrador.model.dto.DentistaDTO;
 import com.dh.trabalhoIntegrador.service.impl.DentistaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +25,11 @@ public class DentistaController implements Serializable {
 
 
     @PostMapping()
-    public ResponseEntity salvar(@RequestBody Dentista dentista){
-        return dentistaService.salvar(dentista);
+    public ResponseEntity salvar(@RequestBody Dentista dentista) throws CadastroInvalidoException, ResourceNotFoundException {
+
+            Dentista dentitaSalvo = dentistaService.salvar(dentista);
+            return new ResponseEntity(dentista, HttpStatus.CREATED);
+
     }
 
 

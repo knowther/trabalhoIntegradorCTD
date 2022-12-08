@@ -1,9 +1,11 @@
 package com.dh.trabalhoIntegrador.controller;
 
+import com.dh.trabalhoIntegrador.exception.CadastroInvalidoException;
 import com.dh.trabalhoIntegrador.model.Consulta;
 import com.dh.trabalhoIntegrador.model.dto.ConsultaDTO;
 import com.dh.trabalhoIntegrador.service.impl.ConsultaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,11 @@ public class ConsultaController {
     ConsultaService consultaService;
 
     @PostMapping
-    public ResponseEntity salvar(@RequestBody Consulta consulta){
-        return consultaService.salvar(consulta);
+    public ResponseEntity salvar(@RequestBody Consulta consulta) throws CadastroInvalidoException {
+        consultaService.salvar(consulta);
+        return new ResponseEntity(consulta, HttpStatus.CREATED);
+
+
     }
 
     @GetMapping

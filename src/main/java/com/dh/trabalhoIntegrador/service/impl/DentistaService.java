@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -32,13 +34,10 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
 
 
     @Override
-    public ResponseEntity salvar(Dentista dentista) {
-        try {
-            Dentista dentistaSalvo = dentistaRepository.save(dentista);
-            return new ResponseEntity("Dentista Dr. " + dentistaSalvo.getNome() + " " + dentistaSalvo.getSobrenome() + " cadastrado com sucesso!", HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity("Erro ao cadastrar dentista", HttpStatus.BAD_REQUEST);
-        }
+    public Dentista salvar(Dentista dentista) throws ResourceNotFoundException {
+        Dentista dentistaExists = dentistaRepository.findByNumMatricula(dentista.getNumMatricula()).orElseThrow(() -> new ResourceNotFoundException("RG já encontra-se cadastrado na base de dados."));
+        Dentista dentistaSalvo = dentistaRepository.save(dentista);
+        return dentistaSalvo;
     }
 
 

@@ -1,5 +1,6 @@
 package com.dh.trabalhoIntegrador.controller;
 
+import com.dh.trabalhoIntegrador.exception.CadastroInvalidoException;
 import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.Paciente;
 import com.dh.trabalhoIntegrador.model.dto.PacienteDTO;
@@ -26,9 +27,13 @@ public class PacienteController implements Serializable {
     private PacienteService pacienteService;
 
     @PostMapping()
-    public ResponseEntity salvar(@RequestBody @Valid Paciente paciente) throws ResourceNotFoundException {
-
-        return pacienteService.salvar(paciente);
+    public ResponseEntity salvar(@RequestBody @Valid Paciente paciente) throws ResourceNotFoundException, CadastroInvalidoException {
+        try{
+            Paciente pacienteSalvo = pacienteService.salvar(paciente);
+            return new ResponseEntity(pacienteSalvo, HttpStatus.CREATED);
+        } catch (CadastroInvalidoException e) {
+            throw new CadastroInvalidoException("Erro ao cadastrar paciente: " + e.getMessage());
+        }
     }
 
 

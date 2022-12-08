@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
 Test set: com.dh.trabalhoIntegrador.service.impl.PacienteServiceTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 0.167 s <<< FAILURE! - in com.dh.trabalhoIntegrador.service.impl.PacienteServiceTest
-findAll  Time elapsed: 0.157 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+Tests run: 2, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.004 s <<< FAILURE! - in com.dh.trabalhoIntegrador.service.impl.PacienteServiceTest
+findAll  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException
 	at com.dh.trabalhoIntegrador.service.impl.PacienteServiceTest.findAll(PacienteServiceTest.java:35)
 
-findById  Time elapsed: 0 s  <<< ERROR!
-java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+findById  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.NullPointerException
 	at com.dh.trabalhoIntegrador.service.impl.PacienteServiceTest.findById(PacienteServiceTest.java:30)
 

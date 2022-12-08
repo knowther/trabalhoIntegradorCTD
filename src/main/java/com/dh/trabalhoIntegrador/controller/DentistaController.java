@@ -32,7 +32,7 @@ public class DentistaController implements Serializable {
     }
 
     @GetMapping("/buscarPorMatricula/{numMatricula}")
-    public Dentista buscarPorMatricula(@PathVariable String numMatricula){
+    public ResponseEntity buscarPorMatricula(@PathVariable String numMatricula){
         return dentistaService.buscarPorNumMatricula(numMatricula);
     }
 
@@ -53,10 +53,9 @@ public class DentistaController implements Serializable {
         return dentistaService.alteracaoPacial(dentistaDTO);
     }
 
-    @PutMapping
-    public String alteracaototal(){
-        return "Entrou put";
+    @PutMapping()
+    public ResponseEntity alteracaoTotal( @RequestBody DentistaDTO dentistaDTO){
+        return dentistaService.alteracaoTotal(dentistaDTO);
     }
-
 
 }

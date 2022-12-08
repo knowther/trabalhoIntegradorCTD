@@ -1,6 +1,8 @@
 package com.dh.trabalhoIntegrador.service.impl;
 
+import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.Consulta;
+import com.dh.trabalhoIntegrador.model.Paciente;
 import com.dh.trabalhoIntegrador.model.dto.ConsultaDTO;
 import com.dh.trabalhoIntegrador.repository.ConsultaRepository;
 import com.dh.trabalhoIntegrador.service.IService;
@@ -31,14 +33,27 @@ public class ConsultaService implements IService<Consulta, ConsultaDTO> {
     }
 
     @Override
-    public Optional<Consulta> buscar(Long id){
-        return consultaRepository.findById(id);
+    public ConsultaDTO buscar(Long id) throws ResourceNotFoundException {
+        ObjectMapper mapper = new ObjectMapper();
+        Consulta consulta = consultaRepository.findById(id).orElseThrow(() -> {return new ResourceNotFoundException("");
+        });
+
+        return mapper.convertValue(consulta, ConsultaDTO.class);
     }
 
     @Override
-    public ResponseEntity atualizar(Long id) {
-        return null;
+    public ConsultaDTO alteracaoTotal(ConsultaDTO consultaDTO) throws ResourceNotFoundException {
+        Consulta consulta = consultaRepository.findByCodConsulta(consultaDTO.getCodConsulta()).orElseThrow(() -> new ResourceNotFoundException("Consulta inexistente na base de dados, verifique."));
+
+        Consulta consultaUpdate = consulta;
+        consultaUpdate.setCodConsulta(consultaDTO.getCodConsulta());
+        consultaUpdate.setDataConsulta(consultaDTO.getDataConsulta());
+        consultaUpdate.setDentista(consultaDTO.getDentista());
+        consultaUpdate.setPaciente(consultaDTO.getPaciente());
+        consultaRepository.save(consultaUpdate);
+        return consultaDTO;
     }
+
 
     @Override
     public List<ConsultaDTO> buscarTodos() {

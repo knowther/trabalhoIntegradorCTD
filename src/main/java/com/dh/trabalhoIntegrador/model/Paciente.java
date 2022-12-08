@@ -22,6 +22,7 @@ public class Paciente implements Serializable {
     private String nome;
     @Column(nullable = false, length = 100)
     private String sobrenome;
+
     @Column(nullable = false, length = 15, unique = true)
     private String rg;
     private Timestamp dataCadastro;

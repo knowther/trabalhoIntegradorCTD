@@ -1,6 +1,6 @@
 package com.dh.trabalhoIntegrador.service.impl;
 
-import com.dh.trabalhoIntegrador.model.Dentista;
+import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.dto.PacienteDTO;
 import com.dh.trabalhoIntegrador.repository.PacienteRepository;
 import com.dh.trabalhoIntegrador.model.Paciente;
@@ -24,22 +24,10 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
     PacienteRepository pacienteRepository;
 
 
-    public Optional<Paciente> buscar(Long id) {
-   return pacienteRepository.findById(id);
-    }
-
-    @Override
-    public ResponseEntity atualizar(Long id) {
-
-        Optional<Paciente> paciente = pacienteRepository.findById(id);
-
-        if(paciente.isEmpty()){
-            return new ResponseEntity("Paciente inexistente.", HttpStatus.BAD_REQUEST);
-        }
-
-
-
-        return null;
+    public PacienteDTO buscar(Long id) throws ResourceNotFoundException {
+        ObjectMapper mapper = new ObjectMapper();
+        Paciente paciente = pacienteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("RG inexistente na base de dados, verifique."));
+        return mapper.convertValue(paciente, PacienteDTO.class);
     }
 
 
@@ -56,35 +44,43 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
     }
 
     @Override
-    public ResponseEntity deletar(Long id) {
-        Optional<Paciente> paciente = buscar(id);
+    public ResponseEntity deletar(Long id) throws ResourceNotFoundException {
+        Paciente paciente = pacienteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Id não encontrado, verifique."));
 
-       if(paciente.isEmpty()){
-           return new ResponseEntity("Paciente inexistente.", HttpStatus.BAD_REQUEST);
-       }
        pacienteRepository.deleteById(id);
-        return new ResponseEntity("Paciente "+ paciente.get().getNome() + "excluído com sucesso.", HttpStatus.OK);
+        return new ResponseEntity("Paciente "+ paciente.getNome() + "excluído com sucesso.", HttpStatus.OK);
     }
 
-    public ResponseEntity salvar(Paciente paciente){
-        try{
-            paciente.setDataCadastro(Timestamp.from(Instant.now()));
-            Paciente pacienteSalvo = pacienteRepository.save(paciente);
+    public ResponseEntity salvar(Paciente paciente) throws ResourceNotFoundException {
+        Paciente pacienteSalvo = null;
+            
+            if(this.buscarPorRg(paciente.getRg()) == null){
+                paciente.setDataCadastro(Timestamp.from(Instant.now()));
+                pacienteSalvo = pacienteRepository.save(paciente);
+            }else{
+                return new ResponseEntity("RG já existente na base de dados.", HttpStatus.BAD_REQUEST);
+            }
+         
             return new ResponseEntity( "Paciente "+pacienteSalvo.getNome()+" criado com sucesso", HttpStatus.CREATED);
-        }catch (Exception e){
-            return new ResponseEntity("Erro ao cadastrar paciente", HttpStatus.BAD_REQUEST);
-        }
+
     }
 
-    public Paciente buscarPorRg(String rg) {
-        return pacienteRepository.findByRg(rg);
-    }
-
-    public ResponseEntity alteracaoPacial(PacienteDTO pacienteDTO){
+    public PacienteDTO buscarPorRg(String rg) throws ResourceNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
-        Optional<Paciente> pacienteOptional = Optional.ofNullable(pacienteRepository.findByRg(pacienteDTO.getRg()));
+        Paciente paciente = pacienteRepository.findByRg(rg).orElseThrow(() -> {
+            return new ResourceNotFoundException("RG inexistente na base de dados, verifique.");
+        });
+
+        return mapper.convertValue(paciente, PacienteDTO.class);
+
+
+    }
+
+    public PacienteDTO alteracaoPacial(PacienteDTO pacienteDTO){
+        ObjectMapper mapper = new ObjectMapper();
+        Optional<Paciente> pacienteOptional = pacienteRepository.findByRg(pacienteDTO.getRg());
         if(pacienteOptional.isEmpty()){
-            return new ResponseEntity("O produto informado não existe",HttpStatus.NOT_FOUND);
+            return null;
         }
         Paciente paciente = pacienteOptional.get();
 
@@ -101,7 +97,19 @@ public class PacienteService implements IService<Paciente, PacienteDTO> {
             paciente.setSobrenome(pacienteDTO.getSobrenome());
         }
 
-        PacienteDTO pacienteChange = mapper.convertValue(pacienteRepository.save(paciente), PacienteDTO.class);
-        return new ResponseEntity(pacienteChange, HttpStatus.CREATED);
+        return mapper.convertValue(pacienteRepository.save(paciente), PacienteDTO.class);
+    }
+
+    public PacienteDTO alteracaoTotal(PacienteDTO pacienteDTO) throws ResourceNotFoundException {
+
+        Paciente paciente = pacienteRepository.findByRg(pacienteDTO.getRg()).orElseThrow(() -> {return new ResourceNotFoundException("RG inexistente na base de dados, verifique.");});
+
+        Paciente pacienteUpdate = paciente;
+        pacienteUpdate.setNome(pacienteDTO.getNome());
+        pacienteUpdate.setSobrenome(pacienteDTO.getSobrenome());
+        pacienteUpdate.setEndereco(pacienteDTO.getEndereco());
+        pacienteUpdate.setRg(pacienteDTO.getRg());
+        pacienteRepository.save(pacienteUpdate);
+        return pacienteDTO;
     }
 }

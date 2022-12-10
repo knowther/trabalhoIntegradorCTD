@@ -36,7 +36,6 @@ public class PacienteController implements Serializable {
         }
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity buscar(@PathVariable Long id) throws ResourceNotFoundException {
         PacienteDTO pacienteDTO = pacienteService.buscar(id);
@@ -50,7 +49,6 @@ public class PacienteController implements Serializable {
         return new ResponseEntity(pacienteDTO, HttpStatus.FOUND);
     }
 
-
     @GetMapping("/buscarTodos")
     public List<PacienteDTO> getAllPacientes(){
         return pacienteService.buscarTodos();
@@ -61,14 +59,12 @@ public class PacienteController implements Serializable {
         return pacienteService.deletar(id);
     }
 
-
     @PutMapping
     // TODO: Implementar alteração completa - Paciente
     public ResponseEntity alteracaoCompleta(@RequestBody PacienteDTO pacienteDTO) throws ResourceNotFoundException {
         PacienteDTO pacienteDTOChange = pacienteService.alteracaoTotal(pacienteDTO);
         return new ResponseEntity(pacienteDTOChange, HttpStatus.OK);
     }
-
 
     @PatchMapping
     public ResponseEntity alteracaoParcial(@RequestBody @Valid PacienteDTO pacienteDTO){

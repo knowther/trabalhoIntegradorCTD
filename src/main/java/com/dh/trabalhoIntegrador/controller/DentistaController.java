@@ -23,15 +23,12 @@ public class DentistaController implements Serializable {
     @Autowired
     DentistaService dentistaService;
 
-
     @PostMapping()
     public ResponseEntity salvar(@RequestBody Dentista dentista) throws CadastroInvalidoException, ResourceNotFoundException {
 
             Dentista dentitaSalvo = dentistaService.salvar(dentista);
             return new ResponseEntity(dentista, HttpStatus.CREATED);
-
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity buscar(@PathVariable Long id) throws ResourceNotFoundException {

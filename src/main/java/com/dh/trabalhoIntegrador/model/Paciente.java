@@ -1,6 +1,5 @@
 package com.dh.trabalhoIntegrador.model;
 
-import com.dh.trabalhoIntegrador.utils.utils;
 import lombok.*;
 
 import javax.persistence.*;

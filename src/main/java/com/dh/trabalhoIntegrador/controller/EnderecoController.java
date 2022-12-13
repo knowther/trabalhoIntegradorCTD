@@ -1,13 +1,11 @@
 package com.dh.trabalhoIntegrador.controller;
 
 import com.dh.trabalhoIntegrador.model.Endereco;
-import com.dh.trabalhoIntegrador.model.dto.EnderecoDTO;
 import com.dh.trabalhoIntegrador.service.impl.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @CrossOrigin("*")
 @RestController

@@ -3,7 +3,6 @@ package com.dh.trabalhoIntegrador.controller;
 import com.dh.trabalhoIntegrador.exception.CadastroInvalidoException;
 import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.Dentista;
-import com.dh.trabalhoIntegrador.model.Paciente;
 import com.dh.trabalhoIntegrador.model.dto.DentistaDTO;
 import com.dh.trabalhoIntegrador.service.impl.DentistaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/dentista")

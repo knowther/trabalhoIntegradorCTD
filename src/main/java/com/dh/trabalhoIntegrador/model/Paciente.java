@@ -1,5 +1,6 @@
 package com.dh.trabalhoIntegrador.model;
 
+import com.dh.trabalhoIntegrador.model.dto.UsuarioDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Getter
 @Setter
 @Entity
@@ -24,8 +26,11 @@ public class Paciente implements Serializable {
 
     @Column(nullable = false, length = 15, unique = true)
     private String rg;
-    private Timestamp dataCadastro;
-    @OneToOne(cascade = CascadeType.ALL)
+    private LocalDate dataCadastro;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Endereco endereco;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
 }

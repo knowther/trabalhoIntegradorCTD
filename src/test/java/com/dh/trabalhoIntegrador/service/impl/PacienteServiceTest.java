@@ -1,8 +1,11 @@
 package com.dh.trabalhoIntegrador.service.impl;
 
+import com.dh.trabalhoIntegrador.exception.CadastroInvalidoException;
 import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.Endereco;
 import com.dh.trabalhoIntegrador.model.Paciente;
+import com.dh.trabalhoIntegrador.model.dto.PacienteDTO;
+import com.dh.trabalhoIntegrador.model.dto.UsuarioDTO;
 import com.dh.trabalhoIntegrador.service.impl.PacienteService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,20 +35,46 @@ class PacienteServiceTest {
     }
 
     @Test
-    void findById(){
-        Endereco endereco = new Endereco(1, "R.", "C", "P" );
-        Paciente paciente = new Paciente(1L, "Johnny", "Wesley", "123.456.122", new Timestamp(System.currentTimeMillis()), endereco);
+    void findById() throws ResourceNotFoundException, CadastroInvalidoException {
+        //Paciente
+        UsuarioDTO usuario = new UsuarioDTO();
+        PacienteDTO paciente = new PacienteDTO();
+        paciente.setRg("11.111.11-1");
+        usuario.setUsername(paciente.getRg());
+        usuario.setPassword("123456");
+        paciente.setNome("Lucas");
+        paciente.setSobrenome("Ramalho");
+        paciente.setUsuario(usuario);
+        //Endereco
+        Endereco endereco = new Endereco();
+        endereco.setLogradouro("Rua Das Giestas");
+        endereco.setCidade("São Paulo");
+        endereco.setEstado("São Paulo");
+        paciente.setEndereco(endereco);
         pacienteService.salvar(paciente);
-//       assertEquals(false, pacienteService.buscar(1L) == null);
+       assertEquals(false, pacienteService.buscar(1L) == null);
 //       pacienteService.deletar(1L);
     }
 
     @Test
-    void findByRG() throws ResourceNotFoundException {
-        Endereco endereco = new Endereco(1, "R.", "C", "P" );
-        Paciente paciente = new Paciente(1L, "Johnny", "Wesley", "123.456.122", new Timestamp(System.currentTimeMillis()), endereco);
+    void findByRG() throws ResourceNotFoundException, CadastroInvalidoException {
+        //Paciente
+        UsuarioDTO usuario = new UsuarioDTO();
+        PacienteDTO paciente = new PacienteDTO();
+        paciente.setRg("11.111.11-1");
+        usuario.setUsername(paciente.getRg());
+        usuario.setPassword("123456");
+        paciente.setNome("Lucas");
+        paciente.setSobrenome("Ramalho");
+        paciente.setUsuario(usuario);
+        //Endereco
+        Endereco endereco = new Endereco();
+        endereco.setLogradouro("Rua Das Giestas");
+        endereco.setCidade("São Paulo");
+        endereco.setEstado("São Paulo");
+        paciente.setEndereco(endereco);
         pacienteService.salvar(paciente);
-//        assertTrue(!pacienteService.buscarPorRg(paciente.getRg()));
+        assertTrue(pacienteService.buscarPorRg(paciente.getRg()) != null);
         pacienteService.deletar(1L);
     }
 

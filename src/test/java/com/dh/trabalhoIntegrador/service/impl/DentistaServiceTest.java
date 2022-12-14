@@ -1,6 +1,9 @@
 package com.dh.trabalhoIntegrador.service.impl;
 
+import com.dh.trabalhoIntegrador.exception.CadastroInvalidoException;
+import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.Dentista;
+import com.dh.trabalhoIntegrador.model.dto.DentistaDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,8 +20,8 @@ class DentistaServiceTest {
     DentistaService dentistaService;
 
     @Test
-    void salvar(){
-        Dentista dentista = new Dentista();
+    void salvar() throws ResourceNotFoundException, CadastroInvalidoException {
+        DentistaDTO dentista = new DentistaDTO();
         dentista.setNumMatricula("MM554438");
         dentista.setNome("Joao");
         dentista.setSobrenome("Alguem");
@@ -28,11 +31,11 @@ class DentistaServiceTest {
 
         dentistaService.deletar(dentistaService.dentistaRepository.findByNumMatricula("MM554438").get().getId());
     }
-
-    //Teste do método buscarPorCro
+//
+//    //Teste do método buscarPorCro
     @Test
-    void buscarPorMatricula(){
-        Dentista dentista = new Dentista();
+    void buscarPorMatricula() throws ResourceNotFoundException, CadastroInvalidoException {
+        DentistaDTO dentista = new DentistaDTO();
         dentista.setNumMatricula("NA5538");
         dentista.setNome("Ayrton");
         dentista.setSobrenome("Senna");
@@ -45,8 +48,8 @@ class DentistaServiceTest {
 
     //Testando o método deletar
     @Test
-    void deletar(){
-        Dentista dentista = new Dentista();
+    void deletar() throws ResourceNotFoundException, CadastroInvalidoException {
+        DentistaDTO dentista = new DentistaDTO();
         dentista.setNumMatricula("JJ543210");
         dentista.setNome("Fernao");
         dentista.setSobrenome("Dias");

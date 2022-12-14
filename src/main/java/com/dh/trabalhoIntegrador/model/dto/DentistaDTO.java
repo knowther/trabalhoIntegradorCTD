@@ -1,6 +1,7 @@
 package com.dh.trabalhoIntegrador.model.dto;
 
 
+import com.dh.trabalhoIntegrador.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -15,6 +16,7 @@ public class DentistaDTO {
     private String nome;
     private String sobrenome;
     private String numMatricula;
+    private UsuarioDTO usuario;
 
 
 

@@ -24,7 +24,7 @@ public class PacienteController implements Serializable {
     private PacienteService pacienteService;
 
     @PostMapping()
-    public ResponseEntity salvar(@RequestBody @Valid Paciente paciente) throws ResourceNotFoundException, CadastroInvalidoException {
+    public ResponseEntity salvar(@RequestBody @Valid PacienteDTO paciente) throws ResourceNotFoundException, CadastroInvalidoException {
         try{
             Paciente pacienteSalvo = pacienteService.salvar(paciente);
             return new ResponseEntity(pacienteSalvo, HttpStatus.CREATED);

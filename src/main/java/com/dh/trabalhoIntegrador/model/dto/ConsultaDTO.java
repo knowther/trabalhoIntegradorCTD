@@ -17,6 +17,6 @@ public class ConsultaDTO {
     private Long Id;
     private String codConsulta;
     private Timestamp dataConsulta;
-    private Paciente paciente;
-    private Dentista dentista;
+    private PacienteDTO paciente;
+    private DentistaDTO dentista;
 }

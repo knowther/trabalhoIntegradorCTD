@@ -19,15 +19,10 @@ public class PacienteDTO {
     private String nome;
     private String sobrenome;
     private String rg;
-    private Timestamp dataCadastro;
+    private LocalDate dataCadastro;
 
     private Endereco endereco;
 
-    public LocalDate getDataCadastro(){
-        return dataCadastro.toLocalDateTime().toLocalDate();
-    }
+    private UsuarioDTO usuario;
 
-    public LocalTime getHoraCadastro(){
-        return dataCadastro.toLocalDateTime().toLocalTime();
-    }
 }

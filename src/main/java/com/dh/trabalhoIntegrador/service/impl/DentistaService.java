@@ -1,16 +1,21 @@
 package com.dh.trabalhoIntegrador.service.impl;
 
+import com.dh.trabalhoIntegrador.exception.CadastroInvalidoException;
 import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.Paciente;
+import com.dh.trabalhoIntegrador.model.Usuario;
 import com.dh.trabalhoIntegrador.model.dto.DentistaDTO;
 import com.dh.trabalhoIntegrador.model.dto.PacienteDTO;
+import com.dh.trabalhoIntegrador.model.dto.UsuarioDTO;
 import com.dh.trabalhoIntegrador.repository.DentistaRepository;
 import com.dh.trabalhoIntegrador.model.Dentista;
 import com.dh.trabalhoIntegrador.service.IService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -34,9 +39,23 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
 
 
     @Override
-    public Dentista salvar(Dentista dentista) throws ResourceNotFoundException {
-        Dentista dentistaExists = dentistaRepository.findByNumMatricula(dentista.getNumMatricula()).orElseThrow(() -> new ResourceNotFoundException("RG já encontra-se cadastrado na base de dados."));
-        Dentista dentistaSalvo = dentistaRepository.save(dentista);
+    public Dentista salvar(DentistaDTO dentista) throws ResourceNotFoundException, CadastroInvalidoException {
+       Optional<Dentista> dentistaExists = dentistaRepository.findByNumMatricula(dentista.getNumMatricula());
+       ObjectMapper mapper = new ObjectMapper();
+        Dentista dentistaSalvo = null;
+        if(dentistaExists.isEmpty()){
+            BCryptPasswordEncoder encrypt = new BCryptPasswordEncoder();
+            UsuarioDTO usuarioNovo = new UsuarioDTO();
+            usuarioNovo.setUsername(dentista.getNumMatricula());
+            usuarioNovo.setPassword(encrypt.encode(dentista.getUsuario().getPassword()));
+            dentista.setUsuario(usuarioNovo);
+            Dentista dentista1 = mapper.convertValue(dentista, Dentista.class);
+            Usuario usuario1 = mapper.convertValue(usuarioNovo, Usuario.class);
+            dentista1.setUsuario(usuario1);
+            dentistaSalvo = dentistaRepository.save(dentista1);
+        }else{
+            throw new CadastroInvalidoException("Matrícula já existente na base de dados.");
+        }
         return dentistaSalvo;
     }
 
@@ -47,6 +66,7 @@ public class DentistaService implements IService<Dentista, DentistaDTO> {
         List<DentistaDTO> dentistaDTOList = new ArrayList<>();
 
         ObjectMapper mapper = new ObjectMapper();
+
         for (Dentista d : dentistaList) {
             dentistaDTOList.add(mapper.convertValue(d, DentistaDTO.class));
         }

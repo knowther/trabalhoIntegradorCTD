@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface IService<T, A> {
 
-    public T salvar (T t) throws CadastroInvalidoException, ResourceNotFoundException;
+    public T salvar (A t) throws CadastroInvalidoException, ResourceNotFoundException;
 
     public A buscar (Long id) throws ResourceNotFoundException;
 

@@ -2,35 +2,51 @@ package com.dh.trabalhoIntegrador.service.impl;
 
 import com.dh.trabalhoIntegrador.exception.ResourceNotFoundException;
 import com.dh.trabalhoIntegrador.model.Consulta;
+import com.dh.trabalhoIntegrador.model.Dentista;
 import com.dh.trabalhoIntegrador.model.Paciente;
 import com.dh.trabalhoIntegrador.model.dto.ConsultaDTO;
 import com.dh.trabalhoIntegrador.repository.ConsultaRepository;
+import com.dh.trabalhoIntegrador.repository.DentistaRepository;
+import com.dh.trabalhoIntegrador.repository.PacienteRepository;
 import com.dh.trabalhoIntegrador.service.IService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ConsultaService implements IService<Consulta, ConsultaDTO> {
+public class ConsultaService{
 
     @Autowired
     ConsultaRepository consultaRepository;
 
-    @Override
-    public Consulta salvar(Consulta consulta){
-        Consulta consultaSalva = consultaRepository.save(consulta);
-        return consultaSalva;
+    @Autowired
+    PacienteRepository pacienteRepository;
+
+    @Autowired
+    DentistaRepository dentistaRepository;
+
+
+    public Consulta salvar(ConsultaDTO consulta){
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        Consulta consulta1 = mapper.convertValue(consulta, Consulta.class);
+
+        Optional<Paciente> paciente = pacienteRepository.findByRg(consulta.getPaciente().getRg());
+        Optional<Dentista> dentista = dentistaRepository.findByNumMatricula(consulta.getDentista().getNumMatricula());
+        consulta1.setPaciente(paciente.get());
+        consulta1.setDentista(dentista.get());
+        consultaRepository.save(consulta1);
+        return consulta1;
     }
 
-    @Override
+
     public ConsultaDTO buscar(Long id) throws ResourceNotFoundException {
         ObjectMapper mapper = new ObjectMapper();
         Consulta consulta = consultaRepository.findById(id).orElseThrow(() -> {return new ResourceNotFoundException("");
@@ -39,21 +55,22 @@ public class ConsultaService implements IService<Consulta, ConsultaDTO> {
         return mapper.convertValue(consulta, ConsultaDTO.class);
     }
 
-    @Override
     public ConsultaDTO alteracaoTotal(ConsultaDTO consultaDTO) throws ResourceNotFoundException {
         Consulta consulta = consultaRepository.findByCodConsulta(consultaDTO.getCodConsulta()).orElseThrow(() -> new ResourceNotFoundException("Consulta inexistente na base de dados, verifique."));
-
-        Consulta consultaUpdate = consulta;
+        ObjectMapper mapper = new ObjectMapper();
+        ConsultaDTO dto = mapper.convertValue(consulta, ConsultaDTO.class);
+        ConsultaDTO consultaUpdate = dto;
         consultaUpdate.setCodConsulta(consultaDTO.getCodConsulta());
         consultaUpdate.setDataConsulta(consultaDTO.getDataConsulta());
         consultaUpdate.setDentista(consultaDTO.getDentista());
         consultaUpdate.setPaciente(consultaDTO.getPaciente());
-        consultaRepository.save(consultaUpdate);
+        Consulta consulta1 = mapper.convertValue(consultaUpdate, Consulta.class);
+        consultaRepository.save(consulta1);
         return consultaDTO;
     }
 
 
-    @Override
+
     public List<ConsultaDTO> buscarTodos() {
         List<Consulta> listConsulta = consultaRepository.findAll();
         List<ConsultaDTO> consultasDTOList = new ArrayList<>();
@@ -65,10 +82,7 @@ public class ConsultaService implements IService<Consulta, ConsultaDTO> {
         return consultasDTOList ;
     }
 
-    @Override
-    public ResponseEntity deletar(Long id) {
-        return null;
-    }
+
 
     public ResponseEntity deletar(String codConsulta){
         Optional<Consulta> consulta = consultaRepository.findByCodConsulta(codConsulta);
@@ -82,12 +96,13 @@ public class ConsultaService implements IService<Consulta, ConsultaDTO> {
 
     public ResponseEntity buscarCodConsulta(String codConsulta){
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
         Optional<Consulta> consulta = consultaRepository.findByCodConsulta(codConsulta);
         if (consulta.isEmpty()){
             return new ResponseEntity("Consulta não encontrada", HttpStatus.BAD_REQUEST);
         }
-        Consulta consultaPesquisada = consulta.get();
-        ConsultaDTO consultaDTO = mapper.convertValue(consultaPesquisada, ConsultaDTO.class);
+        ConsultaDTO consultaDTO = mapper.convertValue(consulta.get(), ConsultaDTO.class);
+        ConsultaDTO consultaPesquisada = consultaDTO;
         return new ResponseEntity(consultaDTO,HttpStatus.OK);
     }
 

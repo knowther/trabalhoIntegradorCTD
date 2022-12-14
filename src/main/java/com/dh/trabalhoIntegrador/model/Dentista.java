@@ -22,4 +22,8 @@ public class Dentista {
     @Column(nullable = false, length = 10, unique = true)
     private String numMatricula;
 
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
 }

@@ -19,7 +19,7 @@ public class ConsultaController {
     ConsultaService consultaService;
 
     @PostMapping
-    public ResponseEntity salvar(@RequestBody Consulta consulta) throws CadastroInvalidoException {
+    public ResponseEntity salvar(@RequestBody ConsultaDTO consulta) throws CadastroInvalidoException {
         consultaService.salvar(consulta);
         return new ResponseEntity(consulta, HttpStatus.CREATED);
 
